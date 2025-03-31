@@ -22,18 +22,20 @@ workflow  {
     // Step 1: MetaDemultiplex
 
     // Define a list of valid file extensions for the demultiplexed files
-    def validEXT = [".fq.gz", ".fq", ".fastq", ".fastq.gz"]
+    def validDEXT = [".fq.gz", ".fq", ".fastq", ".fastq.gz"]
     
     // Create a list of file patterns by appending each valid extension to the demultiplexed path
-    def fpatterns = validEXT.collect { "${params.demultiplexed_path}/*${it}" }
+    def dfpatterns = validDEXT.collect { "${params.demultiplexed_path}/*${it}" }
     
     // Create a channel from the file patterns if use_demultiplexed_files is true, otherwise create an empty channel
-    def validFilesCh = params.use_demultiplexed_files ? Channel.fromPath(fpatterns) : Channel.empty()
+    def validDFilesCh = params.use_demultiplexed_files ? Channel.fromPath(dfpatterns) : Channel.empty()
 
     // Convert the validFilesCh channel to a list and assign it to validFilesList
-    def validFilesList = validFilesCh.toList()
+    def validDFilesList = validDFilesCh.toList()
 
     // Channel for demultiplexed files, created by the MetaDemultiplex process using the list of valid files
-    demult_files_ch = MetaDemultiplex(validFiles: validFilesList)
+    demult_files_ch = MetaDemultiplex(validDFiles: validDFilesList)
+    
+
     
 }
