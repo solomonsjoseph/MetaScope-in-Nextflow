@@ -3,6 +3,7 @@ nextflow.enable.dsl=2
 
 include { DownloadAccessionTaxa } from './Scripts/NextFlow/DownloadAccessionTaxa.nf'
 include { MetaDemultiplex } from './Scripts/NextFlow/MetaDemultiplex.nf'
+include { MetaRef         } from './Scripts/NextFlow//MetaRef.nf'
 
 workflow  {
 
@@ -35,7 +36,20 @@ workflow  {
 
     // Channel for demultiplexed files, created by the MetaDemultiplex process using the list of valid files
     demult_files_ch = MetaDemultiplex(validDFiles: validDFilesList)
-    
 
+
+    // Step 2: MetaRef
+
+    // Define a list of valid file extensions for the RefSeq files
+    def validRefEXT = [".fasta", ".fasta.gz", ".fa", ".fna"]
+
+    // Create a list of file patterns by appending each valid extension to the RefSeq path
+    def refpatterns = validRefEXT.collect { "${params._RefSeq_path}/*${it}" }
+
+    // Create a channel from the file patterns if use_RefSeq_files is true, otherwise create an empty channel
+    def validRefFilesCh = params.use_RefSeq_files ? Channel.fromPath(refpatterns) : Channel.empty()
+
+    // Channel for RefSeq files, created by the MetaRef process using the list of valid files
+    MetaRefOut_ch = MetaRef(validRefFiles: validRefFilesCh)
     
 }
