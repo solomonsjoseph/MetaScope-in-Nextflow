@@ -39,6 +39,6 @@ workflow  {
 
 
     // Step 2: MetaRef
-    MetaRefOut_ch = MetaRef()
+    MetaRef()
     
 }
