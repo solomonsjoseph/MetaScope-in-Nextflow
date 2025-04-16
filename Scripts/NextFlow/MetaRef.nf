@@ -1,4 +1,7 @@
 process MetaRef {
+
+    output:
+        path "data/IndexDir/*", emit: index_output
      
     script:
 
@@ -21,6 +24,7 @@ process MetaRef {
     ${params.aligner}"""
 
     """
+    mkdir -p data/IndexDir
     ${metaCmd}
     """
 }

@@ -39,6 +39,6 @@ workflow  {
 
 
     // Step 2: MetaRef
-    MetaRef()
+    MetaRefOut_Indicies_ch = MetaRef().index_output
     
 }
