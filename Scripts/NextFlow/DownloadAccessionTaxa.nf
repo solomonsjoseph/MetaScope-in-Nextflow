@@ -19,6 +19,5 @@ process DownloadAccessionTaxa {
     ${silva_taxonomy_name} \
     ${blast_16S_name} \
     ${projectDir}/data
-
     """
 }
