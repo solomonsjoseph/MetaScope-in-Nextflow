@@ -8,11 +8,6 @@ process DownloadAccessionTaxa {
         val silva_taxonomy_name
         val blast_16S_name
 
-    output:
-        path "*.sql"
-        path "*.rds"
-        path "16S_ribosomal_RNA"
-
     script:
 
     """
@@ -24,6 +19,5 @@ process DownloadAccessionTaxa {
     ${silva_taxonomy_name} \
     ${blast_16S_name} \
     ${projectDir}/data
-
     """
 }
